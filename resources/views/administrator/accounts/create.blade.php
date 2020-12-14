@@ -11,12 +11,12 @@
                                         <span class="au-breadcrumb-span">You are here:</span>
                                         <ul class="list-unstyled list-inline au-breadcrumb__list">
                                             <li class="list-inline-item active">
-                                                <a href="#">General</a>
+                                                <a href="#">Administrator</a>
                                             </li>
                                             <li class="list-inline-item seprate">
                                                 <span>/</span>
                                             </li>
-                                            <li class="list-inline-item">Create New Customer</li>
+                                            <li class="list-inline-item">Create New Account</li>
                                         </ul>
                                     </div>
                                     <!-- <button class="au-btn au-btn-icon au-btn--green">
@@ -35,31 +35,31 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">New Customer</h3>
+                                <h3 class="mb-0">New Account</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('clients.index') }}" class="btn btn-sm btn-primary">Back to List</a>
+                                <a href="{{ route('accounts.index') }}" class="btn btn-sm btn-primary">Back to List</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="{{ route('clients.store') }}" autocomplete="off">
+                        <form method="post" action="{{ route('accounts.store') }}" autocomplete="off">
                             @csrf
 
-                            <h6 class="heading-small text-muted mb-4">Customer Information</h6>
+                            <h6 class="heading-small text-muted mb-4">Account Information</h6>
                             <div class="pl-lg-4">
                                  <div class="row">
                                     <div class="col-6">                                    
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-stock">Customer Name</label>
-                                            <input type="text" name="customer_name" id="customer_name" class="form-control" placeholder="Customer Name" required>
+                                            <label class="form-control-label" for="input-stock">Account No</label>
+                                            <input type="text" name="account_no" id="account_no" class="form-control"  readonly="" value="{{$account_no->account_no}}">
                                            
                                         </div>
                                     </div>                            
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-stock">Email</label>
-                                            <input type="email" name="customer_email" id="customer_email" class="form-control" placeholder="Email" required>
+                                            <label class="form-control-label" for="input-stock">Account Name</label>
+                                            <input type="text" name="account_name" id="account_name" class="form-control" placeholder="Account Name" required>
                                            
                                         </div>
                                     </div>                            
@@ -67,41 +67,35 @@
                                 <div class="row">
                                     <div class="col-6">                                    
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-stock">CNIC</label>
-                                            <input type="text" name="customer_cnic" id="customer_cnic" class="form-control" placeholder="CNIC" required>
+                                            <label class="form-control-label" for="input-stock">Initial Balance</label>
+                                            <input type="number" name="initial_balance" id="initial_balance" class="form-control" placeholder="Balance" required>
                                            
                                         </div>
                                     </div>
                                     <div class="col-6">                                    
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-price">Phone</label>
-                                            <input type="text" step=".01" name="customer_phone" id="customer_phone" class="form-control form-control-alternative" placeholder="Phone" required>
+                                            <label class="form-control-label" for="input-price">Account Type</label>
+                                            <div class="form-group">
+                                           <select id="account_type" name="account_type" class="form-control">
+                                               @foreach($account_type as $key)
+                                                    <option value="{{$key->id}}">{{$key->type}}</option>
+                                               @endforeach
+                                           </select>
+                                          
+                                        </div>
                                        
                                         </div>
                                     </div>                       
                                 </div>
                                 <div class="row">
-                                     <div class="col-6">                                    
+                                     <div class="col-12">                                    
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-price">Address</label>
-                                            <input type="text" step=".01" name="customer_address" id="customer_address" class="form-control form-control-alternative" placeholder="Address" required>
+                                            <label class="form-control-label" for="input-price">Description</label>
+                                            <input type="text" step=".01" name="description" id="description" class="form-control form-control-alternative" placeholder="Description">
                                        
                                         </div>
                                     </div>
-                                     <div class="col-4">                                    
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="input-stock_defective">Status</label>
-                                            <select class="form-control" name="status" id="status">
-                                                <option value="1">
-                                                    Active
-                                                </option>
-                                                <option value="0">
-                                                    InActive
-                                                </option>
-                                            </select>
-                                          
-                                        </div>
-                                    </div>    
+                                    
                                 </div>
 
                                 <div class="text-right">

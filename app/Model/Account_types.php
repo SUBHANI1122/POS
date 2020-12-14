@@ -4,12 +4,14 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Accounts extends Model
+class Account_types extends Model
 {
-    protected $table = 'accounts';
+    protected $table = 'account_type';
     protected $fillable = [
-        'account_no','account_name', 'description', 'initial_balance', 'account_type'
+        'type','description '
     ];
+
+    
 
     // public function sales()
     // {

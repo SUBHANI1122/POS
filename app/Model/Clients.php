@@ -11,10 +11,10 @@ class Clients extends Model
         'customer_name', 'customer_email', 'customer_phone', 'customer_address', 'customer_cnic', 'status'
     ];
 
-    // public function sales()
-    // {
-    //     return $this->hasMany('App\Sale');
-    // }
+    public function sales()
+    {
+        return $this->hasMany('App\Model\Sales');
+    }
 
     // public function transactions()
     // {

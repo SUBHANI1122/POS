@@ -110,7 +110,7 @@
                                         Statistics</a>
                                 </li>
                                 <li>
-                                    <a href="index.html">
+                                    <a href="{{ url('sale/create') }}">
                                         New Sale</a>
                                 </li>
                                 <li>

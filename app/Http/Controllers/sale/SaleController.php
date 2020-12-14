@@ -4,6 +4,9 @@ namespace App\Http\Controllers\sale;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Model\Sales;
+use App\Model\Clients;
+use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
@@ -14,7 +17,8 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+         $categories = Sales::paginate(25);
+        return view('inventory.categories.index', compact('categories'));
     }
 
     /**
@@ -24,7 +28,14 @@ class SaleController extends Controller
      */
     public function create()
     {
-        //
+        $clients = Clients::all();
+        $sale_invoice=Sales::select('sale_invoice')->orderBy('id', 'desc')->first();
+        if ($sale_invoice=='') {
+           $sale_invoice='1';
+        }else{
+            $sale_invoice;
+        }
+        return view('sale.create', compact('clients', 'sale_invoice'));
     }
 
     /**
@@ -35,7 +46,13 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $request->validate([
+            'category_name' => 'required',
+        ]);
+
+     $show = Sales::create($request->all());
+      return redirect()
+            ->route('categories.index')->withStatus('Successfully added Category.');
     }
 
     /**
@@ -80,6 +97,8 @@ class SaleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Sales::where('id',$id)->delete();
+        return redirect()
+            ->route('categories.index')->withStatus('Successfully deleted Category.');
     }
 }

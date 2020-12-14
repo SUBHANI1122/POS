@@ -30,3 +30,11 @@ Route::group(['middleware' => 'auth'], function () {
         'administrator/accounts' => 'administrator\AccountController',
     ]);
 });
+
+Route::get('sale','sale\SaleController@index');
+Route::get('sale/create','sale\SaleController@create');
+Route::post('sale/store','Sale\SaleController@store');
+Route::get('sale/get_product','Sale\SaleController@add_product_to_sale');
+// Route::post('edit_state/{id}', 'General\StateController@edit');
+// Route::post('update_state','General\StateController@update');
+Route::get('sale/delete/{id}','Sale\SaleController@destroy');

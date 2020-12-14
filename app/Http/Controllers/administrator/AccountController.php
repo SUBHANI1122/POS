@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\general;
+namespace App\Http\Controllers\administrator;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\Accounts;
+use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
 {
@@ -16,7 +17,7 @@ class AccountController extends Controller
     public function index()
     {
         $clients = Accounts::paginate(25);
-        return view('admnistrator.accounts.index', compact('clients'));
+        return view('administrator.accounts.index', compact('clients'));
     }
 
     /**
@@ -26,7 +27,15 @@ class AccountController extends Controller
      */
     public function create()
     {
-        return view('admnistrator.accounts.create');
+        $account_no=Accounts::select('account_no')->orderBy('id', 'desc')->first();
+        if ($account_no=='') {
+           $account_no='1';
+        }else{
+            $account_no;
+        }
+        
+        $account_type = DB::table('account_type')->get();
+        return view('administrator.accounts.create', compact('account_no','account_type'));
     }
 
     /**
@@ -37,14 +46,21 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-
-         $request->validate([
+        $request->validate([
+            'account_no' => 'required',
             'account_name' => 'required',
-            'initial_amount' => 'required',
-            'customer_phone' => 'required',
-            'customer_cnic' => 'required',
+            'initial_balance' => 'required'
         ]);
-        $show = Accounts::create($request->all());
+        $account_no = $request->account_no;
+        $increments=$account_no+1;
+
+        $customer = new Accounts;
+        $customer->account_no = '00'.$increments;
+        $customer->account_name = $request->account_name;
+        $customer->initial_balance = $request->initial_balance;
+        $customer->account_type = $request->account_type;
+        $customer->description = $request->description;
+        $customer->save();
         return redirect()->route('accounts.index')->withStatus('Successfully added account.');
         
         
@@ -82,18 +98,17 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $request->validate([
-            'customer_name' => 'required',
-            'customer_email' => 'required',
-            'customer_phone' => 'required',
-            'customer_cnic' => 'required',
+        $request->validate([
+            'account_no' => 'required',
+            'account_name' => 'required',
+            'initial_balance' => 'required'
         ]);
         $customer = Accounts::find($request->id);
-        $customer->customer_name = $request->customer_name;
-        $customer->customer_email = $request->customer_email;
-        $customer->customer_phone = $request->customer_phone;
-        $customer->customer_cnic = $request->customer_cnic;
-        $customer->status = $request->status;
+        $customer->account_no = $request->account_no;
+        $customer->account_name = $request->account_name;
+        $customer->initial_balance = $request->initial_balance;
+        $customer->account_type = $request->account_type;
+        $customer->description = $request->description;
         $customer->save();
         return redirect()
             ->route('accounts.index')
